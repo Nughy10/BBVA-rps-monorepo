@@ -10,10 +10,13 @@ export class GameComponent extends LitElement {
         type: Array,
       }, 
       playerChoice: {
-        type: String,
+        type: Array,
       },
       botChoice: {
         type: Object,
+      },
+      loading: {
+        type: Boolean
       },
       result: {
         type: String, 
@@ -28,26 +31,32 @@ export class GameComponent extends LitElement {
       {
         name: 'Rock',
         win: ['Scissors','Lizard'],
+        url: "https://i.postimg.cc/4d0KbBWp/Rock.png"
       }, 
       {
         name: 'Paper',
         win: ['Rock','Spock'],
+        url: "https://i.postimg.cc/c4wmCnJF/Paper.png"
       },
       {
         name: 'Scissors',
         win: ['Paper','Lizard'],
+        url: "https://i.postimg.cc/JnXyxjvg/rock-paper-scissors-icon-15.png"
       },
       {
         name: 'Lizard',
         win: ['Spock','Paper'],
+        url: "https://i.postimg.cc/02X86bHJ/Lizard.png"
       },
       {
         name: 'Spock',
         win: ['Scissors','Rock'],
+        url: "https://i.postimg.cc/MGVxrtZy/Spock.png"
       },
     ];
-    this.playerChoice = "";
+    this.playerChoice = [];
     this.botChoice = {};
+    this.loading = false;
     this.result = '';
   }
 
@@ -76,11 +85,14 @@ export class GameComponent extends LitElement {
   }
 
   async validateResult(e){
-    this.playerChoice = e.currentTarget.name;
+    const playersChoiceTarget = e.currentTarget.name;
+    this.playerChoice = playersChoiceTarget.split("_");
+    this.loading = true;
     
     setTimeout(() => {
       this.botChoice = this.getBotChoice();
-      const result = this.setGameRules(this.playerChoice, this.botChoice);
+      this.loading = false;
+      const result = this.setGameRules(this.playerChoice[0], this.botChoice);
       if (result === -1) {
         this.result = "It's a tie!";
         this.loggedUser.attempts++;
@@ -94,7 +106,7 @@ export class GameComponent extends LitElement {
       }
       setTimeout(() => {
         this.result = "";
-        this.playerChoice = "";
+        this.playerChoice = [];
         this.botChoice = {};
       }, 2000);
       return this.storageScore();
@@ -112,60 +124,61 @@ export class GameComponent extends LitElement {
   render() {
     return html`
       <div class="game">
-        <div class="game__header">
-          <div class="game__headerPlayer">
+        <div class="gameHeader">
+          <div class="gameHeaderPlayer">
             <h1>Hi ${this.loggedUser.name}!</h1>
           </div>
-          <div class="game__headerTitle">
-            <h1>Rock, Paper, Scissors, Lizard, Spock</h1>
-          </div>
-          <div class="game__headerRanking">
-            <h1 @click=${this.handleRankingPage}>Ranking</h1>
+          <div class="gameHeaderRanking">
+            <iron-icon @click="${this.handleRankingPage}" icon="icons:grade"></iron-icon>
           </div>
         </div>
-        <div class="game__main">
-          <div class="game__puntuation">
-            <div class="game__puntuationAttempts">
-              <h2>Attempts: </h2>
-              <p>${this.loggedUser.attempts}</p>
+        <div class="gameHeaderTitle">
+          <img src="https://i.postimg.cc/VsqCx9BK/Titulo-PRSLK.png"></img>
+        </div>
+        <div class="gameMain">
+          <div class="gamePuntuation">
+            <div class="gamePuntuationAttempts">
+              <h1>Attempts</h1>
+              <h3>${this.loggedUser.attempts}</h3>
             </div>
-            <div class="game__puntuationScore">
-              <h2>Score: </h2>
-              <p>${this.loggedUser.score}</p>
-            </div>
-          </div>
-          <div class="game__rpslk">
-            <div class="game__rpslkR">
-              <button @click="${this.validateResult}" name="Rock">Rock</button>
-            </div>
-            <div class="game__rpslkP">
-              <button @click="${this.validateResult}" name="Paper">Paper</button>
-            </div>
-            <div class="game__rpslkS">
-              <button @click="${this.validateResult}" name="Scissors">Scissors</button>
-            </div>
-            <div class="game__rpslkL">
-              <button @click="${this.validateResult}" name="Lizard">Lizard</button>
-            </div>
-            <div class="game__rpslkK">
-              <button @click="${this.validateResult}" name="Spock">Spock</button>
+            <div class="gamePuntuationScore">
+              <h1>Score</h1>
+              <h3>${this.loggedUser.score}</h3>
             </div>
           </div>
-          <div class="game__resolution">
-            <div class="game__resolutionPlayer">
+          <div class="gameRpslk">
+            <div class="gameRpslkR">
+              <button @click="${this.validateResult}" name="Rock_https://i.postimg.cc/4d0KbBWp/Rock.png"><img src="https://i.postimg.cc/4d0KbBWp/Rock.png"></img></button>
+            </div>
+            <div class="gameRpslkP">
+              <button @click="${this.validateResult}" name="Paper_https://i.postimg.cc/c4wmCnJF/Paper.png"><img src="https://i.postimg.cc/c4wmCnJF/Paper.png"></img></button>
+            </div>
+            <div class="gameRpslkS">
+              <button @click="${this.validateResult}" name="Scissors_https://i.postimg.cc/JnXyxjvg/rock-paper-scissors-icon-15.png"><img src="https://i.postimg.cc/JnXyxjvg/rock-paper-scissors-icon-15.png"></img></button>
+            </div>
+            <div class="gameRpslkL">
+              <button @click="${this.validateResult}" name="Lizard_https://i.postimg.cc/02X86bHJ/Lizard.png"><img src="https://i.postimg.cc/02X86bHJ/Lizard.png"></img></button>
+            </div>
+            <div class="gameRpslkK">
+              <button @click="${this.validateResult}" name="Spock_https://i.postimg.cc/MGVxrtZy/Spock.png"><img src="https://i.postimg.cc/MGVxrtZy/Spock.png"></img></button>
+            </div>
+          </div>
+          <div class="gameResolution">
+            <div class="gameResolutionPlayer">
               <h2>${this.loggedUser.name}:</h2>
-              <p>${this.playerChoice}</p>
+              <img src=${this.playerChoice[1]}></img>
             </div>
-            <div class="game__resolutionBot">
-              <h2>Bot:</h2>
-              <p>${this.botChoice.name}</p>
+            <div class="gameResolutionBot">
+              <h2>Bot: </h2>
+              ${this.loading ? html`<h2 class="gameResolutionBotLoading">. . .</h2>` : null}
+              <img src=${this.botChoice.url}></img>
             </div>
           </div>
-          ${this.result.length === 0 ? null : html`<div><h4>${this.result}</h4></div>`}
+          ${this.result.length === 0 ? html`<div class="gameResult"></div>` : html`<div class="${this.result.includes("win") ? "gameResultWin" : this.result.includes("lose") ? "gameResultLose" : "gameResultTie"}"><h4>${this.result}</h4></div>`}
         </div>
-        <div class="game__footer">
-          <div class="game__footerLogout">
-            <h1 @click=${this.handleLoggout}>Logout</h1>
+        <div class="gameFooter">
+          <div class="gameFooterLogout">
+          <iron-icon @click="${this.handleLoggout}" icon="icons:exit-to-app"></iron-icon>
           </div>
         </div>
       </div>
@@ -175,6 +188,232 @@ export class GameComponent extends LitElement {
 
   static get styles() {
     return css`
+      .game{
+      display: flex; 
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background-color: black;
+      font-family: Arial, sans-serif;
+    }
+    .gameHeader{
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      align-items: center;
+      width: 100vw;
+      margin-top: 1rem; 
+    }
+    .gameHeaderPlayer{
+      color: gray;
+    }
+    .gameHeaderRanking iron-icon{
+      width: 12vw;
+      height: 12vh;
+      max-width: 60px;
+      max-height: 60px;
+      color: #f0c14b;
+      cursor: pointer;
+    }
+    .gameHeaderRanking iron-icon:hover{
+      color: yellow; 
+    }
+    .gameHeaderTitle{
+      display: flex; 
+      justify-content: center;
+      align-items: center;
+      width: 100vw; 
+      height: 30vh;
+      padding-bottom: 1rem;
+    }
+    .gameHeaderTitle img{
+      width: 95%;
+      max-width: 540px; 
+      height: auto;  
+    }
+    .gameMain{
+      display: flex; 
+      flex-direction: column; 
+      justify-content: space-around;
+      align-items: center;
+      width: 100vw;
+      background-color: #171717;
+      padding-bottom: 1rem; 
+    }
+    .gamePuntuation{
+      display: flex; 
+      flex-direction: row; 
+      justify-content: space-evenly;
+      align-items: center;
+      width: 100vw;
+    }
+    .gamePuntuationAttempts{
+      display: flex; 
+      flex-direction: column; 
+      align-items: center;
+    }
+    .gamePuntuationAttempts h1{
+      color: #f0c14b;
+      text-decoration: underline;
+      font-weight: normal;
+    }
+    .gamePuntuationAttempts h3{
+      color: #f0c14b;
+      font-size: 1.4rem;
+      margin-top: 0rem;
+    }
+    .gamePuntuationScore{
+      display: flex; 
+      flex-direction: column; 
+      align-items: center;
+    }
+    .gamePuntuationScore h1{
+      color: rgb(75 240 87);
+      text-decoration: underline;
+      font-weight: normal;
+    }
+    .gamePuntuationScore h3{
+      color: rgb(75 240 87);
+      font-size: 1.4rem;
+      margin-top: 0rem;
+    }
+    .gameRpslk{
+      display: flex; 
+      flex-direction: row; 
+      flex-wrap: wrap; 
+      align-items: center; 
+      justify-content: center; 
+      margin-top: 1rem; 
+      margin-bottom: 1rem; 
+    }
+    .gameRpslkR button{
+      background-color: transparent; 
+      border: none;
+      padding-right: 1rem; 
+      padding-left: 1rem; 
+      cursor: pointer; 
+    }
+    .gameRpslkR img{
+      width: 20vw;
+      max-width: 100px;
+      height: auto;
+    }
+    .gameRpslkP button{
+      background-color: transparent;
+      border: none;
+      padding-right: 1rem; 
+      padding-left: 1rem; 
+      cursor: pointer; 
+    }
+    .gameRpslkP img{
+      width: 20vw;
+      max-width: 100px;
+      height: auto;
+    }
+    .gameRpslkS button{
+      background-color: transparent;
+      border: none;
+      padding-right: 1rem; 
+      padding-left: 1rem; 
+      cursor: pointer; 
+    }
+    .gameRpslkS img{
+      width: 20vw;
+      max-width: 100px;
+      height: auto;
+    }
+    .gameRpslkL button{
+      background-color: transparent; 
+      border: none;
+      padding-right: 1rem; 
+      padding-left: 1rem; 
+      cursor: pointer; 
+    }
+    .gameRpslkL img{
+      width: 20vw;
+      max-width: 100px;
+      height: auto;
+    }
+    .gameRpslkK button{
+      background-color: transparent;
+      border: none;
+      padding-right: 1rem; 
+      padding-left: 1rem; 
+      cursor: pointer; 
+    }
+    .gameRpslkK img{
+      width: 20vw;
+      max-width: 100px;
+      height: auto;
+    }
+    .gameResolution{
+      display: flex;
+      flex-direction: row;
+      justify-content: space-evenly;
+      align-items: center;
+      width: 100vw;
+      height: 15vh; 
+    }
+    .gameResolutionPlayer{
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      color: gray;
+    }
+    .gameResolutionPlayer img{
+      width: 15vw;
+      max-width: 85px;
+      height: auto;
+      margin-left: 1rem;
+    }
+    .gameResolutionBot{
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      color: gray;
+    }
+    .gameResolutionBot img{
+      width: 15vw;
+      max-width: 85px;
+      height: auto;
+      margin-left: 1rem;
+    }
+    .gameResolutionBotLoading {
+      margin-left: 1rem;
+    }
+    .gameResult {
+      width: 10px;
+      height: 85px;
+    }
+    .gameResultWin {
+      color: rgb(75 240 87);
+      font-size: 1.4rem;
+    }
+    .gameResultTie {
+      color: #f0c14b;
+      font-size: 1.4rem;
+    }
+    .gameResultLose {
+      color: rgb(240 75 75);
+      font-size: 1.4rem;
+    }
+    .gameFooterLogout{
+      margin-top: 2rem; 
+      margin-bottom: 2rem;
+    }
+    .gameFooterLogout iron-icon{
+      width: 12vw;
+      height: 12vh;
+      max-width: 60px;
+      max-height: 60px;
+      color: rgb(240 75 75);
+      cursor: pointer;
+    }
+    .gameFooterLogout iron-icon:hover{
+      color: darkred; 
+    }
     `;
   }
 }

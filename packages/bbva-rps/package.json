@@ -9,6 +9,8 @@
     "start": "web-dev-server"
   },
   "dependencies": {
+    "@polymer/iron-icon": "^3.0.1",
+    "@polymer/iron-icons": "^3.0.1",
     "game-component": "*",
     "lit": "^2.0.2",
     "login-component": "*",

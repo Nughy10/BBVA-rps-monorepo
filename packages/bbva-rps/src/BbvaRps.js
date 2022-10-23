@@ -30,8 +30,8 @@ export class BbvaRps extends LitElement {
   }
 
 
-  handleRouterPath(route) {
-    const path = route.pathname;
+  handleRouterPath(location) {
+    const path = location.pathname;
     this.page = path === "/" ? "login" : path.slice(1);
   }
 
@@ -41,6 +41,14 @@ export class BbvaRps extends LitElement {
     window.history.pushState({}, "", detail.page);
     this.handleRouterPath(window.location);
     if(detail.user) {
+      this.loggedUser = detail.user;
+    }
+  }
+
+  routePathApp(data) {
+    window.history.pushState({}, "", data.page);
+    this.handleRouterPath(window.location);
+    if(data.user) {
       this.loggedUser = detail.user;
     }
   }
@@ -60,7 +68,7 @@ export class BbvaRps extends LitElement {
         return html`<ranking-component .loggedUser=${this.loggedUser} @routePath="${this.routePath}"></ranking-component>`;
       }
       default: {
-        this.page = "login"
+        this.routePathApp({page: "login"})
         return html`<login-component @routePath="${this.routePath}"></login-component>`;
       }
     }
