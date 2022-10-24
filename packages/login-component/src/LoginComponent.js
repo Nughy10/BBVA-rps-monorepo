@@ -3,19 +3,24 @@ import { html, css, LitElement } from 'lit';
 export class LoginComponent extends LitElement {
   static get properties() {
     return {
+      alertMessage : {
+        type: String,
+      }
     };
   }
 
   constructor() {
     super();
+    this.alertMessage = "";
   }
 
+   //User login config (getting local storage)
   handleLogin() {
     const userName = this.shadowRoot.getElementById("nameLogin");
     if (userName.value  == "") {
-      alert("Please enter a valid name")
+      this.alertMessage = "Enter a valid name..";
     } else if (!localStorage.getItem("players." + userName.value)) {
-      alert("This name is not registered")
+      this.alertMessage = "Name not registered!";
     } else {
       const user = JSON.parse(localStorage.getItem("players." + userName.value));
       const customEvent = new CustomEvent('routePath', {detail : {page: "game", user: user}});
@@ -23,6 +28,7 @@ export class LoginComponent extends LitElement {
     }
   }
 
+  //Route path config for Register page switch
   handleToRegister() {
     const customEvent = new CustomEvent('routePath', {detail : {page: "register"}});
     this.dispatchEvent(customEvent);
@@ -47,6 +53,9 @@ export class LoginComponent extends LitElement {
               <input id="nameLogin" type="text" placeholder="Enter your name"></input>
               <button @click=${this.handleLogin}>Login</button>
             </div>
+          </div>
+          <div class="loginNotification">
+            ${this.alertMessage.length === 0 ? null : html`<div class="invalidLogin"><p>${this.alertMessage}</p></div>`}
           </div>
           <hr class="loginLine"></hr>
           <div class="loginRegister">
@@ -89,11 +98,12 @@ export class LoginComponent extends LitElement {
       border: 0.1rem solid gray;
       padding-left: 1.5rem; 
       padding-right: 1.5rem; 
-      padding-bottom: 2rem;
+      padding-bottom: 1rem;
     }
     .loginFormTitle{
       font-size: 1.5rem;
       font-style: italic;
+      margin-top: -1rem;
     }
     .loginFormPlayer{
       font-size: 1.5rem;
@@ -155,6 +165,7 @@ export class LoginComponent extends LitElement {
       align-items: center;
       width: 64vw;
       max-width: 540px;
+      margin-top: -0.5rem;
     }
     .loginRegister p{
       font-size: 1.3rem;
@@ -173,6 +184,26 @@ export class LoginComponent extends LitElement {
     }
     .loginRegister button:hover{
       background-color: orange;
+    }
+    .loginNotification{
+      display: flex; 
+      flex-direction: column; 
+      justify-content: center; 
+      align-items: center;
+      width: 64vw;
+      height: 0vh;
+      margin-top: 2rem;
+      max-width: 540px;
+    }
+    .invalidLogin{
+      color: gray; 
+      font-style: italic;
+      font-size: 1.2rem; 
+    }
+    .validLogin{
+      color: gray; 
+      font-style: italic;
+      font-size: 1.2rem; 
     }
     `;
   }

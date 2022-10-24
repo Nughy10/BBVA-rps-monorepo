@@ -20,6 +20,8 @@ export class RankingComponent extends LitElement {
     super();
     this.players = [];
     this.loggedUser = {};
+
+    //Itareting users and showing results (getting local storage)
     for (let i = 0; i < localStorage.length; i++) {
       if (/(players\.)+/.test(localStorage.key(i))) {
         this.players.push(JSON.parse(localStorage.getItem(localStorage.key(i))));
@@ -27,12 +29,13 @@ export class RankingComponent extends LitElement {
     }
   }
 
-
+  //Route path config for Game page switch
   handleGamePage() {
     const customEvent = new CustomEvent('routePath', {detail : {page: "game"}});
     this.dispatchEvent(customEvent);
   }
 
+  //Route path config for Login page switch
   handleLoggout() {
     const customEvent = new CustomEvent('routePath', {detail : {page: "login", user: {}}});
     this.dispatchEvent(customEvent);

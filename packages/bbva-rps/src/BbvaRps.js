@@ -1,5 +1,4 @@
 import { LitElement, html, css } from 'lit';
-
 import { installRouter } from "pwa-helpers/router.js";
 
 import "register-component";
@@ -24,17 +23,19 @@ export class BbvaRps extends LitElement {
     this.page = "login";
     this.loggedUser = {};
 
+    //installRouter config as a constructor function
     installRouter((location) => {
       this.handleRouterPath(location);
     });
   }
 
-
+  //Routes Path config for page switching
   handleRouterPath(location) {
     const path = location.pathname;
     this.page = path === "/" ? "login" : path.slice(1);
   }
 
+  //Route Path config for logged user
   routePath(event) {
     const detail = event.detail;
     console.log(detail)
@@ -45,14 +46,13 @@ export class BbvaRps extends LitElement {
     }
   }
 
+  //Route Path config for default routes
   routePathApp(data) {
     window.history.pushState({}, "", data.page);
     this.handleRouterPath(window.location);
-    if(data.user) {
-      this.loggedUser = detail.user;
-    }
   }
 
+  //Active Page render using routes paths
   _renderActivePage() {
     switch (this.page) {
       case "login": {

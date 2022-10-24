@@ -61,16 +61,19 @@ export class GameComponent extends LitElement {
   }
 
 
+  //Route path config for Ranking page switch
   handleRankingPage() {
     const customEvent = new CustomEvent('routePath', {detail : {page: "ranking"}});
     this.dispatchEvent(customEvent);
   }
 
+  //Route path config for Login page switch
   handleLoggout() {
     const customEvent = new CustomEvent('routePath', {detail : {page: "login", user: {}}});
     this.dispatchEvent(customEvent);
   }
 
+  //Setting game rules based on properties choices
   setGameRules(playerChoice, botChoice) {
     if (playerChoice === botChoice.name) {
       return -1;
@@ -79,16 +82,19 @@ export class GameComponent extends LitElement {
     return checkWin; 
   }
 
+  //Getting bot choice from random math function
   getBotChoice(){
     const botChoice = this.choices[Math.floor(Math.random() * this.choices.length)];
       return botChoice;
   }
 
+  //Validation result depending on the player choice
   async validateResult(e){
     const playersChoiceTarget = e.currentTarget.name;
     this.playerChoice = playersChoiceTarget.split("_");
     this.loading = true;
     
+    //Comparsion the results obtained by the player and robot choices
     setTimeout(() => {
       this.botChoice = this.getBotChoice();
       this.loading = false;
@@ -104,6 +110,8 @@ export class GameComponent extends LitElement {
         this.result = "You lose!";
         this.loggedUser.attempts++;
       }
+
+      //Cleaning results and preparing for the next play
       setTimeout(() => {
         this.result = "";
         this.playerChoice = [];
@@ -113,6 +121,7 @@ export class GameComponent extends LitElement {
     }, 1500); 
   }
 
+  //Storaging score according to the logged in user
   storageScore(){
     localStorage.setItem(
       "players." + this.loggedUser.name,
@@ -148,7 +157,7 @@ export class GameComponent extends LitElement {
           </div>
           <div class="gameRpslk">
             <div class="gameRpslkR">
-              <button @click="${this.validateResult}" name="Rock_https://i.postimg.cc/4d0KbBWp/Rock.png"><img src="https://i.postimg.cc/4d0KbBWp/Rock.png"></img></button>
+              <button @click="${this.validateResult}" id="rockBtn" name="Rock_https://i.postimg.cc/4d0KbBWp/Rock.png"><img src="https://i.postimg.cc/4d0KbBWp/Rock.png"></img></button>
             </div>
             <div class="gameRpslkP">
               <button @click="${this.validateResult}" name="Paper_https://i.postimg.cc/c4wmCnJF/Paper.png"><img src="https://i.postimg.cc/c4wmCnJF/Paper.png"></img></button>
@@ -174,7 +183,7 @@ export class GameComponent extends LitElement {
               <img src=${this.botChoice.url}></img>
             </div>
           </div>
-          ${this.result.length === 0 ? html`<div class="gameResult"></div>` : html`<div class="${this.result.includes("win") ? "gameResultWin" : this.result.includes("lose") ? "gameResultLose" : "gameResultTie"}"><h4>${this.result}</h4></div>`}
+          ${this.result.length === 0 ? html`<div class="gameResult"></div>` : html`<div id="result" class="${this.result.includes("win") ? "gameResultWin" : this.result.includes("lose") ? "gameResultLose" : "gameResultTie"}"><h4>${this.result}</h4></div>`}
         </div>
         <div class="gameFooter">
           <div class="gameFooterLogout">

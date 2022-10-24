@@ -8,7 +8,9 @@
   "module": "index.js",
   "scripts": {
     "analyze": "cem analyze --litelement",
-    "start": "web-dev-server"
+    "start": "web-dev-server",
+    "test": "web-test-runner --coverage",
+    "test:watch": "web-test-runner --watch"
   },
   "dependencies": {
     "@polymer/iron-icon": "^3.0.1",
@@ -17,7 +19,9 @@
   },
   "devDependencies": {
     "@custom-elements-manifest/analyzer": "^0.4.17",
-    "@web/dev-server": "^0.1.34"
+    "@open-wc/testing": "next",
+    "@web/dev-server": "^0.1.28",
+    "@web/test-runner": "^0.13.22"
   },
   "customElements": "custom-elements.json"
 }

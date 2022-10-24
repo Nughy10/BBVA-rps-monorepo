@@ -3,18 +3,22 @@ import { html, css, LitElement } from 'lit';
 export class RegisterComponent extends LitElement {
   static get properties() {
     return {
+      alertMessage: {
+        type: String,
+      }
     };
   }
 
   constructor() {
     super();
+    this.alertMessage = "";
   }
 
-
+  //User register config (setting local storage)
   handleRegister() {
     const userName = this.shadowRoot.getElementById("nameRegister");
     if (userName.value == "") {
-      alert("Please enter a valid name...")
+      this.alertMessage = "Enter a valid name...";
     } else if (!localStorage.getItem("players." + userName.value)) {
       let user = {
         name: userName.value,
@@ -22,13 +26,13 @@ export class RegisterComponent extends LitElement {
         attempts: 0,
       };
       localStorage.setItem("players." + userName.value, JSON.stringify(user));
-      alert("Player registered successfully!")
       this.handleToLogin();
     } else {
-      alert("This name is already registered!!")
+      this.alertMessage = "Name already registered!";
     }
   }
 
+  //Route path config for Login page switch
   handleToLogin() {
     const customEvent = new CustomEvent('routePath', {detail : {page: "login"}});
     this.dispatchEvent(customEvent);
@@ -51,9 +55,12 @@ export class RegisterComponent extends LitElement {
           </div>
           <div class="registerFormPlayerInput">
             <input id="nameRegister" type="text" placeholder="Enter your name"></input>
-            <button @click=${this.handleRegister}>Register</button>
+            <button id="registerBtn" @click=${this.handleRegister}>Register</button>
+            </div>
           </div>
-        </div>
+          <div class="registerNotification">
+            ${this.alertMessage.length === 0 ? null : html`<div class="invalidRegister"><p>${this.alertMessage}</p></div>`}
+          </div>
         <hr class="registerLine"></hr>
         <div class="registerLogin">
           <p>Already have an account?</p>
@@ -95,11 +102,12 @@ export class RegisterComponent extends LitElement {
       border: 0.1rem solid gray;
       padding-left: 1.5rem; 
       padding-right: 1.5rem; 
-      padding-bottom: 2rem;
+      padding-bottom: 1rem;
     }
     .registerFormTitle{
       font-size: 1.5rem;
       font-style: italic;
+      margin-top: -1rem;
     }
     .registerFormPlayer{
       font-size: 1.5rem;
@@ -161,6 +169,7 @@ export class RegisterComponent extends LitElement {
       align-items: center;
       width: 64vw;
       max-width: 540px;
+      margin-top: -0.5rem;
     }
     .registerLogin p{
       font-size: 1.3rem;
@@ -179,6 +188,26 @@ export class RegisterComponent extends LitElement {
     }
     .registerLogin button:hover{
       background-color: orange;
+    }
+    .registerNotification{
+      display: flex; 
+      flex-direction: column; 
+      justify-content: center; 
+      align-items: center;
+      width: 64vw;
+      height: 0vh;
+      margin-top: 2rem;
+      max-width: 540px;
+    }
+    .invalidRegister{
+      color: gray; 
+      font-style: italic;
+      font-size: 1.2rem; 
+    }
+    .validRegister{
+      color: gray; 
+      font-style: italic;
+      font-size: 1.2rem; 
     }
     `;
   }
