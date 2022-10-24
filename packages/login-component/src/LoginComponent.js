@@ -209,4 +209,4 @@ export class LoginComponent extends LitElement {
   }
 }
 
-window.customElements.define('login-component', LoginComponent);
+customElements.define('login-component', LoginComponent);

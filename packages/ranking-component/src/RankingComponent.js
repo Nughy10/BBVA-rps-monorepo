@@ -21,7 +21,7 @@ export class RankingComponent extends LitElement {
     this.players = [];
     this.loggedUser = {};
 
-    //Itareting users and showing results (getting local storage)
+    //Itareting users (getting local storage)
     for (let i = 0; i < localStorage.length; i++) {
       if (/(players\.)+/.test(localStorage.key(i))) {
         this.players.push(JSON.parse(localStorage.getItem(localStorage.key(i))));
@@ -199,4 +199,4 @@ export class RankingComponent extends LitElement {
     `;
   }
 }
-window.customElements.define('ranking-component', RankingComponent);
+customElements.define('ranking-component', RankingComponent);

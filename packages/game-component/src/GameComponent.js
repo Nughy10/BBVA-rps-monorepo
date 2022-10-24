@@ -426,4 +426,4 @@ export class GameComponent extends LitElement {
     `;
   }
 }
-window.customElements.define('game-component', GameComponent);
+customElements.define('game-component', GameComponent);

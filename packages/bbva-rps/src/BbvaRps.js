@@ -35,10 +35,9 @@ export class BbvaRps extends LitElement {
     this.page = path === "/" ? "login" : path.slice(1);
   }
 
-  //Route Path config for logged user
+  //Route Path event for all components 
   routePath(event) {
     const detail = event.detail;
-    console.log(detail)
     window.history.pushState({}, "", detail.page);
     this.handleRouterPath(window.location);
     if(detail.user) {
@@ -46,13 +45,13 @@ export class BbvaRps extends LitElement {
     }
   }
 
-  //Route Path config for default routes
+  //Route Path event for app
   routePathApp(data) {
     window.history.pushState({}, "", data.page);
     this.handleRouterPath(window.location);
   }
 
-  //Active Page render using routes paths
+  //Active Page component render 
   _renderActivePage() {
     switch (this.page) {
       case "login": {

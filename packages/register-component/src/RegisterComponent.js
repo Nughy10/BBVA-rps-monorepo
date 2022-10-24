@@ -213,4 +213,4 @@ export class RegisterComponent extends LitElement {
   }
 }
 
-window.customElements.define('register-component', RegisterComponent);
+customElements.define('register-component', RegisterComponent);
