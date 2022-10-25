@@ -13,9 +13,13 @@ BBVA JavaScript Challenge (Rock, Paper, Scissors, Lizard, Spock)
   
 - Start:
   /packages/register-component -> npm install
+  
   /packages/login-component -> npm install
+  
   /packages/game-component -> npm install
+  
   /packages/ranking-component -> npm install
+  
   /packages/bbva-rps -> npm install 
   
   /packages/bbva-rps -> npm start
