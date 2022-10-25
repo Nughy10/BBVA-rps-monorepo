@@ -2,9 +2,13 @@
 
 BBVA JavaScript Challenge (Rock, Paper, Scissors, Lizard, Spock)
 
+
+
 - Link: 
 
   https://nughy10.github.io/
+  
+  
 
 - Description: 
 
@@ -14,6 +18,7 @@ BBVA JavaScript Challenge (Rock, Paper, Scissors, Lizard, Spock)
   
   
   JavaScript monorepository application using LitElement framework (Application + Components). 
+  
   
   
 - Start:
@@ -32,10 +37,13 @@ BBVA JavaScript Challenge (Rock, Paper, Scissors, Lizard, Spock)
   /packages/bbva-rps -> npm start
   
   
+  
 - Test: 
-    Test implemented on all components individually.
+
+  Test implemented on all components individually.
     
-    npm test 
+  npm test 
+    
     
     
 - Operation: 
