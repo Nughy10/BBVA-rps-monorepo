@@ -12,7 +12,7 @@ BBVA JavaScript Challenge (Rock, Paper, Scissors, Lizard, Spock)
   
   
   
-  - Rules: 
+- Rules: 
   
   The player chooses a move and a short time later the choice of bot is revealed. The winner is the one who beats the other.
   
