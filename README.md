@@ -1,12 +1,6 @@
 # nughy10.github.io
 
 BBVA JavaScript Challenge (Rock, Paper, Scissors, Lizard, Spock)
-
-
-
-- Link: 
-
-  https://nughy10.github.io/
   
   
 
