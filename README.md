@@ -40,6 +40,7 @@ BBVA JavaScript Challenge (Rock, Paper, Scissors, Lizard, Spock)
   
 - Test: 
 
+
   Test implemented on all components individually.
     
   npm test 
